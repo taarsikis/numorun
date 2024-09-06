@@ -14,7 +14,10 @@ struct RegistrationSex: View {
     @State private var isFemale: Bool = false
     
     @Environment(\.presentationMode) var presentationMode
+    
     @StateObject var userData = UserData()
+    @StateObject private var userViewModel = UsersViewModel()
+    @AppStorage("uid") var userID: String = ""
     
     private var isAllowedContinue: Bool {
         // Your validation logic here. For demonstration, let's just check they are not empty.
@@ -116,7 +119,9 @@ struct RegistrationSex: View {
             Button(action:{
                 if isAllowedContinue{
                     navigateToRegistrationDate = true
+                    
                     userData.updateUser(data: ["sex": sex , "registrationStage": "date"])
+                    userViewModel.partialUpdateUser(userId: self.userID, data: ["sex": sex])
                 }
                 
             }){
@@ -129,6 +134,7 @@ struct RegistrationSex: View {
             
             Button(action:{
                 navigateToRegistrationDate = true
+                
                 userData.updateUser(data: [ "registrationStage": "date"])
             }){
                 Spacer()

@@ -10,12 +10,18 @@ import SwiftUI
 struct RegistrationExperience: View {
     
     @State private var experience: String = ""
+    
+    @State private var experienceInt: Int = 0
     @State private var isBeginer: Bool = false
     @State private var isExperienced: Bool = false
     @State private var isExpert: Bool = false
     
+    var fromSettings : Bool = false
+    
     @Environment(\.presentationMode) var presentationMode
     @StateObject var userData = UserData()
+    @StateObject private var userViewModel = UsersViewModel()
+    @AppStorage("uid") var userID: String = ""
     
     private var isAllowedContinue: Bool {
         // Your validation logic here. For demonstration, let's just check they are not empty.
@@ -76,6 +82,7 @@ struct RegistrationExperience: View {
             
             Button(action: {
                 experience = "beginner"
+                experienceInt = 1
                 isBeginer = true
                 isExperienced = false
                 isExpert = false
@@ -98,6 +105,7 @@ struct RegistrationExperience: View {
             
             Button(action: {
                 experience = "experienced"
+                experienceInt = 2
                 isBeginer = false
                 isExperienced = true
                 isExpert = false
@@ -120,6 +128,7 @@ struct RegistrationExperience: View {
              
             Button(action: {
                 experience = "expert"
+                experienceInt = 3
                 isBeginer = false
                 isExperienced = false
                 isExpert = true
@@ -147,13 +156,21 @@ struct RegistrationExperience: View {
             Button(action:{
                 if isAllowedContinue{
                     navigateToEndOfRegistration = true
+                    
+                    
                     userData.updateUser(data: ["experience": experience , "registrationStage": "done"])
+                    userViewModel.partialUpdateUser(userId: self.userID, data: ["experience": experienceInt])
                 }
             }){
                 SuccessButtonView(title: "Далі", isAllowed: isAllowedContinue, fontSize: 20, fontPaddingSize: 16, cornerRadiusSize: 12)
                     .padding(.horizontal,30)
             }.fullScreenCover(isPresented: $navigateToEndOfRegistration, content: {
-                ProfileView()
+                if fromSettings{
+                    ProfileSettings()
+                }else{
+                    
+                    ContentView()
+                }
             })
             .padding(.bottom,97.5)
         }

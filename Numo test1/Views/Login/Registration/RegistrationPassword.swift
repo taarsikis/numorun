@@ -19,11 +19,13 @@ struct RegistrationPassword: View {
     @State private var isRepeatedPasswordVisible: Bool? = false // To control password visibility
     
     @Environment(\.presentationMode) var presentationMode
+    
     @StateObject var userData = UserData()
+    @StateObject private var userViewModel = UsersViewModel()
     
     private var isAllowedContinue: Bool {
         // Your validation logic here. For demonstration, let's just check they are not empty.
-        !password.isEmpty && !repeatedPassword.isEmpty && password == repeatedPassword
+        !password.isEmpty && !repeatedPassword.isEmpty && password == repeatedPassword && password.validatePassword()
     }
     
     @State private var navigateToRegistrationName = false
@@ -79,9 +81,30 @@ struct RegistrationPassword: View {
                 .padding(.horizontal, 16)
             
             InputField(text: $repeatedPassword, placeholder: "Повтори введений пароль", imageName: "lock-closed", isSecure: true, baseString: "******", state: .constant(.passive), isPasswordVisible: $isRepeatedPasswordVisible)
-                .padding(.bottom, 9)
                 .padding(.horizontal, 16)
          
+            if !password.validatePassword(){
+                HStack{
+                    Text("Пароль повинен містити мінімум 6 символів та хоча б дві цифри")
+                        .font(.caption)
+                        .foregroundColor(Color(hex: "EB6048"))
+                        .padding(.top, 4)
+                        .padding(.horizontal, 20)
+                    Spacer()
+                }
+            }
+            
+            if password != repeatedPassword{
+                HStack{
+                    
+                    Text("Введені паролі відрізняються")
+                        .font(.caption)
+                        .foregroundColor(Color(hex: "EB6048"))
+                        .padding(.top, 4)
+                        .padding(.horizontal, 20)
+                    Spacer()
+                }
+            }
                 Spacer()
             
             Button(action:{
@@ -97,6 +120,8 @@ struct RegistrationPassword: View {
                             print(authResult.user.uid)
                             userID = authResult.user.uid
                             userData.addUser(email: email, name: authResult.user.uid, dateOfBirth: Date(),sex: "", weight: 0.0, experience: "", registrationStage: "name")
+                            
+                            userViewModel.createUser(user: User(id: userID, email: self.email, name: userID, sex:"", date_of_birth: "2022-03-03", weight: 0, experience: 0, balance: 0))
                             
                         }
                     }

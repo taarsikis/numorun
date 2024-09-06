@@ -3,7 +3,7 @@ import Firebase
 import Combine
 
 class UserData: ObservableObject {
-    @Published var user: User?
+    @Published var user: UserFb?
     private var db = Firestore.firestore()
     @AppStorage("uid") var userID: String = ""
 
@@ -15,7 +15,7 @@ class UserData: ObservableObject {
                 print("document exists")
                 let data = document.data() ?? [:]
                 
-                let user = User(id: document.documentID, dictionary: data)
+                let user = UserFb(id: document.documentID, dictionary: data)
                 
                 self.user = user
                 DispatchQueue.main.async {

@@ -7,6 +7,9 @@
 
 import SwiftUI
 import URLImage
+import FirebaseAuth
+
+
 
 struct RegistrationEmail: View {
     @State private var email: String = ""
@@ -16,11 +19,40 @@ struct RegistrationEmail: View {
     @State private var forceRefresh: Bool = false
     @State private var inputState: FieldState = .passive
     
-    private var isAllowedContinue: Bool {
-        // Your validation logic here. For demonstration, let's just check they are not empty.
-        !email.isEmpty
-    }
     
+    @State private var isEmailAvailable: Bool? = nil
+    
+    @State private var hint: String = ""
+    
+    @StateObject private var userViewModel = UsersViewModel()
+
+    private var isAllowedContinue: Bool {
+        guard let isEmailAvailable = isEmailAvailable else { 
+            isValidEmail = false
+            return false }
+        
+        return isEmailAvailable && email.isValidEmail() && !email.isEmpty
+    }
+
+    func checkEmailAvailability() {
+        guard email.isValidEmail() else {
+            self.isEmailAvailable = false
+            
+            hint = "Ця електронна адреса введена у невірному форматі"
+            return
+        }
+        if userViewModel.users.filter({ $0.email == email }).count > 0 {
+            self.isEmailAvailable = false
+            
+            hint = "Ця електронна адреса вже використовується"
+            
+        }else{
+         
+            self.isEmailAvailable = true
+            hint = ""
+        }
+
+    }
 
     
     var body: some View {
@@ -70,10 +102,19 @@ struct RegistrationEmail: View {
                 .padding(.bottom,26)
                 .padding(.horizontal, 16)
                 
-                InputField(text: $email, placeholder: "Електронна адреса", imageName: "mail", isSecure: false, baseString: "numo@gmail", state: $inputState, hint: isValidEmail ? "": "Ця електронна адреса введена неправильно, або ж вона вже використовується",  isPasswordVisible: .constant(false))
-                    .padding(.bottom, 16)
+                InputField(text: $email, placeholder: "Електронна адреса", imageName: "mail", isSecure: false, baseString: "numo@gmail", state: $inputState,  isPasswordVisible: .constant(false))
                     .padding(.horizontal, 16)
-                
+                if !hint.isEmpty{
+                    
+                    HStack{
+                        Spacer()
+                        Text(hint)
+                            .font(.caption)
+                            .foregroundColor(Color(hex: "EB6048"))
+                            .padding(.top, 4)
+                        Spacer()
+                    }
+                }
                 Spacer()
                 
                 Button(action: {
@@ -98,7 +139,19 @@ struct RegistrationEmail: View {
                 })
             }
             .padding(.top, 29)
-
+            .onAppear{
+                userViewModel.fetchUsers()
+            }
+            .onChange(of: email) { _ in
+                // Reset availability when email changes
+                if !(isEmailAvailable ?? true) || !email.isValidEmail(){
+                    isValidEmail = false
+                }
+                if isEmailAvailable ?? true && email.isValidEmail(){
+                    isValidEmail = true
+                }
+                checkEmailAvailability()
+            }
     }
 }
 

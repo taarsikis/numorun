@@ -17,6 +17,8 @@ struct LoginView: View {
     @State private var isPasswordVisible: Bool? = false // To control password visibility
     
     @State private var navigateToRegistration = false
+    
+    @State private var navigateToRestorePassword = false
     private var isAllowedLogin: Bool {
         // Your validation logic here. For demonstration, let's just check they are not empty.
         !email.isEmpty && !password.isEmpty
@@ -43,11 +45,17 @@ struct LoginView: View {
             
             HStack {
                 Spacer()
-                Text("Забув пароль")
-                    .foregroundColor(Color(hex: "#07B29D"))
-                    .font(.system(size: 12))
-                    .padding(.bottom, 212)
+                Button(action:{
+                    navigateToRestorePassword = true
+                }) {
+                    Text("Забув пароль")
+                        .foregroundColor(Color(hex: "#07B29D"))
+                        .font(.system(size: 12))
+                        .padding(.bottom, 212)
                     .padding(.horizontal, 56)
+                }.fullScreenCover(isPresented: $navigateToRestorePassword, content: {
+                    RestorePasswordEmailView()
+                })
             }
             
             Spacer()

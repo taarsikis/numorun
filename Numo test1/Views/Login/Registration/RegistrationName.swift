@@ -9,10 +9,15 @@ import SwiftUI
 import URLImage
 
 struct RegistrationName: View {
+    @AppStorage("uid") var userID: String = ""
     @State private var name: String = ""
     
+    var fromSettings : Bool = false
+    
     @Environment(\.presentationMode) var presentationMode
+    
     @StateObject var userData = UserData()
+    @StateObject private var userViewModel = UsersViewModel()
     
     private var isAllowedContinue: Bool {
         // Your validation logic here. For demonstration, let's just check they are not empty.
@@ -76,14 +81,26 @@ struct RegistrationName: View {
                 Button(action:{
                     if isAllowedContinue{
                         navigateToRegistrationSex = true
-                        userData.updateUser(data: ["name": name , "registrationStage": "sex"])
+                        if fromSettings{
+                            userData.updateUser(data: ["name": name , "registrationStage": "done"])
+                        }else{
+                            userData.updateUser(data: ["name": name , "registrationStage": "sex"])
+                        }
+                        
+                        userViewModel.partialUpdateUser(userId: userID, data: ["name": name] )
+                        
                     }
                 }){
                     SuccessButtonView(title: "Далі", isAllowed: isAllowedContinue, fontSize: 20, fontPaddingSize: 16, cornerRadiusSize: 12)
                     .padding(.bottom,110)
                     .padding(.horizontal,30)
                 }.fullScreenCover(isPresented: $navigateToRegistrationSex, content: {
-                    RegistrationSex()
+                    if fromSettings {
+                        ProfileSettings()
+                    }else{
+                        RegistrationSex()
+                    }
+                    
                 })
             }
             .padding(.top, 29)

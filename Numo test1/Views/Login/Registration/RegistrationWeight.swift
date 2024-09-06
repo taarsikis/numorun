@@ -11,8 +11,12 @@ struct RegistrationWeight: View {
     
     @State private var weight: String = ""
     
+    var fromSettings : Bool = false
+    
     @Environment(\.presentationMode) var presentationMode
     @StateObject var userData = UserData()
+    @StateObject private var userViewModel = UsersViewModel()
+    @AppStorage("uid") var userID: String = ""
     
     private var isAllowedContinue: Bool {
         // Your validation logic here. For demonstration, let's just check they are not empty.
@@ -86,19 +90,31 @@ struct RegistrationWeight: View {
                                         res_weight = 0
                                         navigateToRegistrationExperience = false
                                     }
-                    userData.updateUser(data: ["weight": weight , "registrationStage": "experience"])
+                    if fromSettings{
+                        userData.updateUser(data: ["weight": weight , "registrationStage": "done"])
+                    }else{
+                        userData.updateUser(data: ["weight": weight , "registrationStage": "experience"])
+                    }
+                    
+                    userViewModel.partialUpdateUser(userId: self.userID, data: ["weight": Double(weight)])
                 }
             }){
                 SuccessButtonView(title: "Далі", isAllowed: isAllowedContinue, fontSize: 20, fontPaddingSize: 16, cornerRadiusSize: 12)
                 .padding(.horizontal,30)
             }.fullScreenCover(isPresented: $navigateToRegistrationExperience, content: {
-                RegistrationExperience()
+                if fromSettings{
+                    ProfileSettings()
+                }else{
+                    RegistrationExperience()
+                }
             })
             .padding(.bottom, 10.5)
             
             Button(action:{
                 navigateToRegistrationExperience = true
-                userData.updateUser(data: [ "registrationStage": "experience"])
+                if !fromSettings{
+                    userData.updateUser(data: [ "registrationStage": "experience"])
+                }
             }){
                 Spacer()
                 Text("Бажаю не вказувати")
@@ -107,7 +123,11 @@ struct RegistrationWeight: View {
                 Spacer()
                 
             }.fullScreenCover(isPresented: $navigateToRegistrationExperience, content: {
-                RegistrationExperience()
+                if fromSettings{
+                    ProfileSettings()
+                }else{
+                    RegistrationExperience()
+                }
             })
             .padding(.bottom,97.5)
             .padding(.horizontal,86)

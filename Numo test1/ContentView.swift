@@ -3,7 +3,9 @@ import SwiftUI
 struct ContentView: View {
     @AppStorage("uid") var userID: String = ""
     @StateObject var userData = UserData()
-
+    @State private var selectedTabIndex = 0
+    @State private var startRun = false
+    
     var body: some View {
         ZStack {
             if userID.isEmpty {
@@ -21,7 +23,38 @@ struct ContentView: View {
                 case "experience":
                     RegistrationExperience()
                 case "done":
-                    ProfileView()
+                    ZStack {
+                        switch selectedTabIndex {
+                        case 0:
+                            ChallengeList()
+                                .padding(.top, ss(w: 1))
+                                .padding(.bottom, ss(w:1))
+                            
+                        case 1:
+                            AvtivityView()
+//                                .padding(.top, ss(w: 1))
+//                                .padding(.bottom, ss(w:1))
+                        case 2:
+                            BalanceView()
+                        case 3:
+                            ProfileView()
+//                                .padding(.top, ss(w: 1))
+//                                .padding(.bottom, ss(w:1))
+                        case 4:
+                            TrackerView(startRun: $startRun, selectedTabIndex: $selectedTabIndex)
+                        default:
+                            ChallengeList()
+//                                .padding(.top, ss(w: 1))
+//                                .padding(.bottom, ss(w:1))
+                        }
+                        
+                        VStack {
+                            Spacer()
+                            NavigationBarView(selectedTabIndex: $selectedTabIndex, startRun: $startRun)
+                        }
+//                        .padding(.bottom, ss(w:1))
+                        
+                    }
                 default:
                     WelcomeView()
                 }
@@ -29,6 +62,7 @@ struct ContentView: View {
                 ProgressView()
             }
         }
+//        .ignoresSafeArea()
         .onAppear {
                     print("ContentView appeared with userID: \(userID)")
                     if !userID.isEmpty {

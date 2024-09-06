@@ -1,7 +1,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct User: Identifiable {
+struct UserFb: Identifiable {
     var id: String
     var email: String
     var name: String
@@ -17,7 +17,17 @@ struct User: Identifiable {
         self.name = dictionary["name"] as? String ?? ""
         self.dateOfBirth = (dictionary["dateOfBirth"] as? Timestamp)?.dateValue() ?? Date()
         self.sex = dictionary["sex"] as? String ?? ""
-        self.weight = dictionary["weight"] as? Double ?? 0.0
+        if let weightValue = dictionary["weight"] {
+            if let weightDouble = weightValue as? Double {
+                self.weight = weightDouble
+            } else if let weightString = weightValue as? String, let weightDouble = Double(weightString) {
+                self.weight = weightDouble
+            } else {
+                self.weight = 0.0 // Default to 0.0 if the conversion fails
+            }
+        } else {
+            self.weight = 0.0 // Default to 0.0 if `dictionary["weight"]` is nil
+        }
         self.experience = dictionary["experience"] as? String ?? ""
         self.registrationStage = dictionary["registrationStage"] as? String ?? "name" // Default to first step if not set
     }

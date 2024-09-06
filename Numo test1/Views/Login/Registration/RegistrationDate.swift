@@ -12,8 +12,13 @@ struct RegistrationDate: View {
     
     @State private var selectedDate: Date = Date()
     
+    var fromSettings : Bool = false
+    
     @Environment(\.presentationMode) var presentationMode
     @StateObject var userData = UserData()
+    @StateObject private var userViewModel = UsersViewModel()
+    @AppStorage("uid") var userID: String = ""
+    
     
     private var isAllowedContinue: Bool {
         // Your validation logic here. For demonstration, let's just check they are not empty.
@@ -84,14 +89,26 @@ struct RegistrationDate: View {
             Button(action:{
                 if isAllowedContinue{
                     navigateToRegistrationWeight = true
-                    userData.updateUser(data: ["dateOfBirth": selectedDate , "registrationStage": "weight"])
+                    if fromSettings{
+                        userData.updateUser(data: ["dateOfBirth": selectedDate , "registrationStage": "done"])
+                    }else{
+                        userData.updateUser(data: ["dateOfBirth": selectedDate , "registrationStage": "weight"])
+                    }
+                    userViewModel.partialUpdateUser(userId: self.userID, data: ["date_of_birth": selectedDate.toString(withFormat: "yyyy-MM-dd")])
                 }
                 
             }){
                 SuccessButtonView(title: "Далі", isAllowed: isAllowedContinue, fontSize: 20, fontPaddingSize: 16, cornerRadiusSize: 12)
                     .padding(.horizontal, 30)
             }.fullScreenCover(isPresented: $navigateToRegistrationWeight, content: {
-                RegistrationWeight()
+                
+                if fromSettings{
+                    ProfileSettings()
+                }else{
+                    
+                    RegistrationWeight()
+                }
+                
             })
             .padding(.bottom,97.5)
         }
