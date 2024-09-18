@@ -94,7 +94,7 @@ struct RegistrationDate: View {
                     }else{
                         userData.updateUser(data: ["dateOfBirth": selectedDate , "registrationStage": "weight"])
                     }
-                    userViewModel.partialUpdateUser(userId: self.userID, data: ["date_of_birth": selectedDate.toString(withFormat: "yyyy-MM-dd")])
+                    userViewModel.partialUpdateUser(userId: self.userID, data: ["date_of_birth": selectedDate.toString(withFormat: "yyyy-MM-dd")]){}
                 }
                 
             }){

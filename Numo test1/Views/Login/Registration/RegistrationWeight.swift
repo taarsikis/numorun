@@ -96,7 +96,7 @@ struct RegistrationWeight: View {
                         userData.updateUser(data: ["weight": weight , "registrationStage": "experience"])
                     }
                     
-                    userViewModel.partialUpdateUser(userId: self.userID, data: ["weight": Double(weight)])
+                    userViewModel.partialUpdateUser(userId: self.userID, data: ["weight": Double(weight)]){}
                 }
             }){
                 SuccessButtonView(title: "Далі", isAllowed: isAllowedContinue, fontSize: 20, fontPaddingSize: 16, cornerRadiusSize: 12)

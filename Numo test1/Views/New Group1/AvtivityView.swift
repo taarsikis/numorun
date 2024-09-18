@@ -20,6 +20,7 @@ struct AvtivityView: View {
     
     @State private var showAlert = false
     @State private var alertMessage = ""
+    @State private var isLoading = false
     
     @AppStorage("uid") var userID: String = ""
     
@@ -123,7 +124,7 @@ struct AvtivityView: View {
                             if getUserChallengeStatus(challengeId: ch.id ?? 1) == 3 {
                                 Button(action:{
                                     if let user = self.userViewModel.user {
-                                        
+                                        isLoading = true
                                         // Fetch challenge financials
                                         challengeFinancialsViewModel.fetchChallengeFinancials(challengeId: ch.id ?? 1) { result in
                                             switch result {
@@ -134,7 +135,8 @@ struct AvtivityView: View {
                                                 participant.user_status = 4
                                                 participantViewModel.updateParticipant(participantId: participant.id ?? 1, participant: participant)
                                                 
-                                                userViewModel.partialUpdateUser(userId: userID, data: ["balance" : user.balance + winnerEarnings])
+                                                userViewModel.partialUpdateUser(userId: userID, data: ["balance" : user.balance + winnerEarnings]){                                     isLoading = false
+                                                }
                                             case .failure(let error):
                                                 alertMessage = "Failed to fetch financials: \(error.localizedDescription)"
                                                                                                 showAlert = true
@@ -144,9 +146,15 @@ struct AvtivityView: View {
                                 }) {
                                     HStack(spacing: 0){
                                         HStack(alignment: .center, spacing: 10) {
-                                            Image("check-circle 1")
-                                                .resizable()
-                                                .frame(width : ss(w: 24), height: ss(w: 24), alignment: .leading)
+                                            if isLoading {
+                                                                ProgressView()  // Loading spinner
+                                                                    .frame(width: ss(w: 24), height: ss(w: 24), alignment: .leading)
+                                                            } else {
+                                                                Image("check-circle 1")
+                                                                    .resizable()
+                                                                    .frame(width: ss(w: 24), height: ss(w: 24), alignment: .leading)
+                                                            }
+                                            
                                         }
                                         .padding(8)
                                         .background(Color(red: 0.99, green: 0.99, blue: 0.99))

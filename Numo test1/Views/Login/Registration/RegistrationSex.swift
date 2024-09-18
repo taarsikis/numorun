@@ -121,7 +121,7 @@ struct RegistrationSex: View {
                     navigateToRegistrationDate = true
                     
                     userData.updateUser(data: ["sex": sex , "registrationStage": "date"])
-                    userViewModel.partialUpdateUser(userId: self.userID, data: ["sex": sex])
+                    userViewModel.partialUpdateUser(userId: self.userID, data: ["sex": sex]){}
                 }
                 
             }){

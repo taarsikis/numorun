@@ -73,6 +73,7 @@
 		4A6F8B892BC094C50069C644 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6F8B882BC094C50069C644 /* ProfileView.swift */; };
 		4A6F8B8B2BC12C7A0069C644 /* SettingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6F8B8A2BC12C7A0069C644 /* SettingsButton.swift */; };
 		4A6F8B8D2BC3EB320069C644 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6F8B8C2BC3EB320069C644 /* NavigationBarView.swift */; };
+		4A718A012C9852C000D081DE /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A718A002C9852C000D081DE /* ColorExtension.swift */; };
 		4A83A2722C6CE87E00A3F023 /* BalanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A83A2712C6CE87E00A3F023 /* BalanceView.swift */; };
 		4A9FE5E52BB5ABA3004DA1B2 /* Numo_test1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9FE5E42BB5ABA3004DA1B2 /* Numo_test1App.swift */; };
 		4A9FE5E72BB5ABA3004DA1B2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9FE5E62BB5ABA3004DA1B2 /* ContentView.swift */; };
@@ -81,7 +82,6 @@
 		4A9FE5F42BB5B64B004DA1B2 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 4A9FE5F32BB5B64B004DA1B2 /* URLImage */; };
 		4A9FE5F62BB5B64B004DA1B2 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 4A9FE5F52BB5B64B004DA1B2 /* URLImageStore */; };
 		4A9FE5FA2BB6AFDB004DA1B2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9FE5F92BB6AFDB004DA1B2 /* WelcomeView.swift */; };
-		4A9FE5FD2BB6B01A004DA1B2 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9FE5FC2BB6B01A004DA1B2 /* ColorExtension.swift */; };
 		4A9FE5FF2BB6B448004DA1B2 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9FE5FE2BB6B448004DA1B2 /* LoginView.swift */; };
 		4A9FE6012BB6BBCC004DA1B2 /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9FE6002BB6BBCC004DA1B2 /* TextFieldExtension.swift */; };
 		4A9FE6052BB6F698004DA1B2 /* RegistrationEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9FE6042BB6F698004DA1B2 /* RegistrationEmail.swift */; };
@@ -142,6 +142,7 @@
 		4A6F8B882BC094C50069C644 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		4A6F8B8A2BC12C7A0069C644 /* SettingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButton.swift; sourceTree = "<group>"; };
 		4A6F8B8C2BC3EB320069C644 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
+		4A718A002C9852C000D081DE /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		4A83A2712C6CE87E00A3F023 /* BalanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceView.swift; sourceTree = "<group>"; };
 		4A9FE5E12BB5ABA3004DA1B2 /* Numo test1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Numo test1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A9FE5E42BB5ABA3004DA1B2 /* Numo_test1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numo_test1App.swift; sourceTree = "<group>"; };
@@ -149,7 +150,6 @@
 		4A9FE5E82BB5ABA5004DA1B2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4A9FE5EB2BB5ABA5004DA1B2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4A9FE5F92BB6AFDB004DA1B2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		4A9FE5FC2BB6B01A004DA1B2 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		4A9FE5FE2BB6B448004DA1B2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		4A9FE6002BB6BBCC004DA1B2 /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		4A9FE6042BB6F698004DA1B2 /* RegistrationEmail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationEmail.swift; sourceTree = "<group>"; };
@@ -391,11 +391,11 @@
 		4A9FE5FB2BB6B009004DA1B2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				4A9FE5FC2BB6B01A004DA1B2 /* ColorExtension.swift */,
 				4A9FE6002BB6BBCC004DA1B2 /* TextFieldExtension.swift */,
 				4A43B0D82BBECD13008BB191 /* EmailVerificationStringExtension.swift */,
 				4AC5DFDB2BFE2A3100604E43 /* DateExtension.swift */,
 				4ACB79612BFE506600E495C8 /* StringExtension.swift */,
+				4A718A002C9852C000D081DE /* ColorExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -572,6 +572,7 @@
 				4AAF4BA12C8875C7008D1F3E /* BacgroundsForAvatars.swift in Sources */,
 				4A39391C2BFCD26A00038ECA /* ChallengeRunAPIViewModel.swift in Sources */,
 				4A3938FF2BF245B700038ECA /* CreationPrice.swift in Sources */,
+				4A718A012C9852C000D081DE /* ColorExtension.swift in Sources */,
 				4A6683CB2C1989DD0054CEE2 /* ChallengeView.swift in Sources */,
 				4A42D1C72BD14CAE00915393 /* UserModel.swift in Sources */,
 				4A3939112BFB85A000038ECA /* test.swift in Sources */,
@@ -610,7 +611,6 @@
 				4A6683CF2C2054DE0054CEE2 /* ChallengeViewCompletedRuns.swift in Sources */,
 				4A9FE60E2BBC9312004DA1B2 /* RegistrationName.swift in Sources */,
 				4A9FE6142BBD576D004DA1B2 /* RegistrationWeight.swift in Sources */,
-				4A9FE5FD2BB6B01A004DA1B2 /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

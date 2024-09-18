@@ -188,7 +188,7 @@ struct CreationCalendar: View {
                                 }
 
                             // Custom modal view for distance entry
-                            DistanceEntryView(kilometers: $tempKilometers) {
+                            DistanceEntryView(kilometers: $tempKilometers, curentDate: $currentDate) {
                                 addRunningDay(distance: tempKilometers)
                                 showingDistanceEntry = false
                             }
@@ -234,6 +234,7 @@ extension Date {
 
 struct DistanceEntryView: View {
     @Binding var kilometers: Int
+    @Binding var curentDate: Date
     var onSave: () -> Void
     private let kilometerOptions: [Int] = Array(0...100) // Range from 1 to 100
     
@@ -244,7 +245,7 @@ struct DistanceEntryView: View {
     
     var body: some View {
         VStack {
-            Text("К-сть кілометрів для \(Date(), style: .date)")
+            Text("К-сть кілометрів для \(curentDate, style: .date)")
             
             Picker("Kilometers", selection: $kilometers) {
                 ForEach(kilometerOptions, id: \.self) { km in

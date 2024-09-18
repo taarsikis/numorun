@@ -43,9 +43,9 @@ struct ProfileSettings: View {
         if userViewModel.user?.experience == 1{
             return "Початківець"
         }else if userViewModel.user?.experience == 2{
-            return "Досвідчений"
+            return "Любитель"
         }else if userViewModel.user?.experience == 3{
-            return "Експерт"
+            return "Досвідчений"
         }else{
             return ""
         }

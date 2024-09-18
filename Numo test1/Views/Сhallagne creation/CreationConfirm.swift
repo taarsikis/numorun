@@ -29,6 +29,7 @@ struct CreationConfirm: View {
 
     
     @State private var navigateToChallengeList = false
+    @State private var isLoading = false
     
     @State private var navigateToList = false
     
@@ -194,7 +195,7 @@ struct CreationConfirm: View {
                             .font(.system(size: 18))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.trailing,ss(w: 4))
-                        Text("\((self.challengeDetails.slowest_pace - (self.challengeDetails.slowest_pace % 60))/60):\(String(format: "%02d", self.challengeDetails.slowest_pace % 60)) км/хв")
+                        Text("\((self.challengeDetails.slowest_pace - (self.challengeDetails.slowest_pace % 60))/60):\(String(format: "%02d", self.challengeDetails.slowest_pace % 60)) хв/км")
                             .foregroundColor(Color(hex: "#5D5E5E"))
                             .font(.system(size: 16))
                     }
@@ -240,7 +241,7 @@ struct CreationConfirm: View {
                 
                 VStack(alignment: .leading) {
                     VStack {
-                        ForEach(runs, id: \.id) { run in
+                        ForEach(runs.prefix(4), id: \.id) { run in
                             
                             HStack(spacing: 0){
                                 Text(run.date, style: .date)
@@ -281,7 +282,7 @@ struct CreationConfirm: View {
                 .padding(.bottom, ss(w:36))
                 
                 
-                Button(action: {
+//                Button(action: {
 //                    if isAllowedContinue{
 //                        navigateToChallengeList = true
 //                        self.challengeDetails.creator  = self.userID
@@ -301,61 +302,101 @@ struct CreationConfirm: View {
 //                        }
 //                        
 //                    }
-                    
-                    if isAllowedContinue {
-                        navigateToChallengeList = true
-                        self.challengeDetails.creator  = self.userID
-                        print("Button pressed!")
-                        print("Started challenge creation")
-                            challengeViewModel.createChallengeWithRuns(challenge: self.challengeDetails, runningDays: self.runs) { result in
-                                switch result {
-                                case .success(let createdChallenge):
-                                    print("Succes in challenge creation and getting ID")
-                                    // Now that the challenge is successfully created, you can use its ID
-                                    if let challengeId = createdChallenge.id {
+                        Button(action: {
+                            if isAllowedContinue && !isLoading {
+                                isLoading = true  // Start loading
+                                
+                                self.challengeDetails.creator = self.userID
+                                print("Button pressed!")
+                                print("Started challenge creation")
+                                
+                                // First API call: create challenge with runs
+                                challengeViewModel.createChallengeWithRuns(challenge: self.challengeDetails, runningDays: self.runs) { result in
+                                    switch result {
+                                    case .success(let createdChallenge):
+                                        print("Success in challenge creation and getting ID")
                                         
-                                        // Proceed to update user and navigate
-                                        if let user = userViewModel.user {
-                                            let updatedUser = User(id: user.id, email: user.email, name: user.name, sex: user.sex, date_of_birth: user.date_of_birth, weight: user.weight, experience: user.experience, balance: user.balance - challengeDetails.price)
-                                            let participant = Participant(challenge_id: challengeId, user_id: self.userID, user_status: 1)
-                                            participantViewModel.createParticipant(participant: participant)
-                                            userViewModel.updateUser(userId: self.userID, user: updatedUser)
-                                            navigateToChallengeList = true
-                                        }else{
+                                        // Now that the challenge is successfully created, you can use its ID
+                                        if let challengeId = createdChallenge.id {
+                                            // Proceed to update user and create participant
+                                            if let user = userViewModel.user {
+                                                let updatedUser = User(id: user.id, email: user.email, name: user.name, sex: user.sex, date_of_birth: user.date_of_birth, weight: user.weight, experience: user.experience, balance: user.balance - challengeDetails.price)
+                                                let participant = Participant(challenge_id: challengeId, user_id: self.userID, user_status: 1)
+                                                
+                                                // First: update user
+                                                userViewModel.updateUser(userId: self.userID, user: updatedUser) { userResult in
+                                                    switch userResult {
+                                                    case .success:
+                                                        // After user update succeeds, create participant
+                                                        participantViewModel.createParticipant(participant: participant) { participantResult in
+                                                            isLoading = false  // Stop loading after participant is created
+                                                            switch participantResult {
+                                                            case .success:
+                                                                navigateToChallengeList = true  // Navigate after successful operations
+                                                            case .failure(let error):
+                                                                print("Error creating participant: \(error)")
+                                                                showingAlert = true
+                                                            }
+                                                        }
+                                                    case .failure(let error):
+                                                        isLoading = false  // Stop loading on failure
+                                                        print("Error updating user: \(error)")
+                                                        showingAlert = true
+                                                    }
+                                                }
+                                            } else {
+                                                isLoading = false  // Stop loading if user is missing
+                                                showingAlert = true
+                                            }
+                                        } else {
+                                            isLoading = false  // Stop loading if challenge ID is missing
                                             showingAlert = true
                                         }
-                                    }else{
+                                    case .failure(let error):
+                                        isLoading = false  // Stop loading on challenge creation failure
+                                        print("Error creating challenge: \(error)")
                                         showingAlert = true
                                     }
-                                case .failure(let error):
-                                    
-                                    print("Fail in challenge creation and getting ID")
-                                    // Handle error, perhaps set showingAlert to true here
-                                    print("Error creating challenge: \(error)")
-                                    showingAlert = true
                                 }
                             }
+                        
+                        }) {
+                            
+                            if isLoading {
+                                HStack{
+                                    Spacer()
+                                    ProgressView()  // Show loading spinner while processing
+                                        .padding(.horizontal, 30)
+                                    Spacer()
+                                }
+                            } else {
+                                SuccessButtonView(
+                                    title: "Продовжити",
+                                    isAllowed: isAllowedContinue && !isLoading,
+                                    fontSize: 20,
+                                    fontPaddingSize: 16,
+                                    cornerRadiusSize: 12
+                                )
+                                .padding(.horizontal, 30)
+                            }
+                            
+                        }.fullScreenCover(isPresented: $navigateToChallengeList, content: {
+                            ContentView()
+                        })
+                        if !isAllowedContinue{
+                            
+                            HStack{
+                                Spacer()
+                                Text("У вас недостатньо коштів на балансі (\(userViewModel.user?.balance ?? 0)/\(challengeDetails.price) грн.)")
+                                    .font(.caption)
+                                    .foregroundColor(Color(hex: "EB6048"))
+                                    .padding(.top, 4)
+                                Spacer()
+                            }
                         }
-                }){
-                    SuccessButtonView(title: "Продовжити", isAllowed: isAllowedContinue, fontSize: 20, fontPaddingSize: 16, cornerRadiusSize: 12)
-                        .padding(.horizontal, 30)
-                }.fullScreenCover(isPresented: $navigateToChallengeList, content: {
-                    ContentView()
-                })
-                if !isAllowedContinue{
-                    
-                    HStack{
-                        Spacer()
-                        Text("У вас недостатньо коштів на балансі (\(userViewModel.user?.balance ?? 0)/\(challengeDetails.price) грн.)")
-                            .font(.caption)
-                            .foregroundColor(Color(hex: "EB6048"))
-                            .padding(.top, 4)
-                        Spacer()
+                        
                     }
-                }
-                
-                
-            }
+            
         }.onAppear {
             userViewModel.getUser(userId: userID)
         }

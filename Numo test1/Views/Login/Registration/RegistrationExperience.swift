@@ -74,7 +74,7 @@ struct RegistrationExperience: View {
             
             
             
-            Text("Наскільки ти\nдосвідчений?")
+            Text("Наскільки ти\nдосвідчений в бізі?")
                 .foregroundColor(Color(hex: "#1B1C1C"))
                 .font(.system(size: 40))
                 .padding(.bottom,16)
@@ -159,7 +159,7 @@ struct RegistrationExperience: View {
                     
                     
                     userData.updateUser(data: ["experience": experience , "registrationStage": "done"])
-                    userViewModel.partialUpdateUser(userId: self.userID, data: ["experience": experienceInt])
+                    userViewModel.partialUpdateUser(userId: self.userID, data: ["experience": experienceInt]){}
                 }
             }){
                 SuccessButtonView(title: "Далі", isAllowed: isAllowedContinue, fontSize: 20, fontPaddingSize: 16, cornerRadiusSize: 12)

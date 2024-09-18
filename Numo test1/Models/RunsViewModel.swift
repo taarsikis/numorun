@@ -22,18 +22,22 @@ class RunsViewModel: ObservableObject {
     }
     
     // Create a new run
-    func createRun(run: Run) {
+    func createRun(run: Run, completion: @escaping (Result<Run, Error>) -> Void) {
         APIService.shared.createRun(run: run) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let newRun):
                     self?.runs.append(newRun)
+                    completion(.success(newRun)) // Call the completion handler with success
+                    print("Succes: created Run")
                 case .failure(let error):
                     self?.errorMessage = "Failed to create run: \(error.localizedDescription)"
+                    completion(.failure(error)) // Call the completion handler with failure
                 }
             }
         }
     }
+
     
     // Get a specific run by ID
     func fetchRun(runId: Int) {

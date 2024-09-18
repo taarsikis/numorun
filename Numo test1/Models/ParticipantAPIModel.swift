@@ -18,14 +18,16 @@ class ParticipantsViewModel: ObservableObject {
         }
     }
 
-    func createParticipant(participant: Participant) {
+    func createParticipant(participant: Participant, completion: @escaping (Result<Participant, Error>) -> Void) {
         APIService.shared.createParticipant(participant: participant) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let newParticipant):
                     self?.participants.append(newParticipant)
+                    completion(.success(newParticipant))  // Notify success
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
+                    completion(.failure(error))  // Notify failure
                 }
             }
         }

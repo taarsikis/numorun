@@ -14,7 +14,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         self.locationManager?.delegate = self
         self.locationManager?.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager?.allowsBackgroundLocationUpdates = true  // Allow updates in the background
-                self.locationManager?.pausesLocationUpdatesAutomatically = false 
+                self.locationManager?.pausesLocationUpdatesAutomatically = false
         self.locationManager?.requestWhenInUseAuthorization()
     }
     
@@ -69,6 +69,7 @@ struct TrackerView: View {
     @State private var startTime: Date?
     @State private var tryToFinish = false
     @State private var navigateToRunStats = false
+    @State private var isLoading = false  // Loading state
     @StateObject private var runViewModel = RunsViewModel()
     
     @Binding var startRun: Bool
@@ -228,40 +229,64 @@ struct TrackerView: View {
                             .padding(0)
                             
                             VStack(alignment: .center, spacing: 0) {
-                                HStack(alignment: .center, spacing: 0) {
-                                    Button(action:{
-                                        startRun = false
-                                        navigateToRunStats = true
-                                        
-                                        self.selectedTabIndex = 3
-                                        print("Run finished")
-                                        let city = locationManager.mostFrequentCity() ?? "Unknown"
+                                if isLoading {
+                                                            ProgressView() // Show loading spinner
+                                                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                                                                .scaleEffect(1.5)
+                                } else {
+                                    
+                                    HStack(alignment: .center, spacing: 0) {
+                                        Button(action:{
+                                            isLoading = true  // Show loading spinner
+
+                                            startRun = false
+                                            print("Run finished")
+                                            let city = locationManager.mostFrequentCity() ?? "Unknown"
                                             let dateFormatter = DateFormatter()
                                             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
                                             let date = dateFormatter.string(from: startTime ?? Date())
                                             let timezone = TimeZone.current.identifier
-                                        runViewModel.createRun(run: Run(id: 1, user_id: userID, date: date, timezone: timezone, distance: self.distance, duration: self.duration, pace: self.averagePace, city: city))
-                                    }){
-                                        HStack(alignment: .center, spacing: 10) {
-                                            // Para
-                                            Text("Завершити")
-                                                .font(Font.custom("Kyiv*Type Sans", size: 16))
-                                                .foregroundColor(Color(red: 0.99, green: 0.99, blue: 0.99))
+                                            runViewModel.createRun(run: Run(id: 1, user_id: userID, date: date, timezone: timezone, distance: self.distance, duration: self.duration, pace: self.averagePace, city: city)) { result in
+                                                DispatchQueue.main.async {
+                                                      // Hide spinner when done
+                                                    
+                                                    switch result {
+                                                    case .success(let run):
+                                                        // Handle success, navigate to the run stats screen
+                                                        print("Run created successfully: \(run)")
+                                                        navigateToRunStats = true
+                                                        isLoading = false
+                                                        self.selectedTabIndex = 3
+
+                                                    case .failure(let error):
+                                                        // Handle error, maybe show an alert or error message
+                                                        print("Error creating run: \(error.localizedDescription)")
+                                                        // You can also show a UI alert or some error handling here if needed
+                                                    }
+                                                }
+                                            }
+
+                                        }){
+                                            HStack(alignment: .center, spacing: 10) {
+                                                // Para
+                                                Text("Завершити")
+                                                    .font(Font.custom("Kyiv*Type Sans", size: 16))
+                                                    .foregroundColor(Color(red: 0.99, green: 0.99, blue: 0.99))
+                                            }
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 0)
                                         }
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 0)
+                                        
+                                        //                                        RunStats(duration: self.$resDuration, distance: self.$resDistance, pace: self.$resPace)
+                                        //                                    })
+                                        //
                                     }
-                                    
-//                                        RunStats(duration: self.$resDuration, distance: self.$resDistance, pace: self.$resPace)
-//                                    })
-//
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 10)
+                                    .frame(width: 167, height: 40, alignment: .center)
+                                    .background(Color(red: 0.03, green: 0.7, blue: 0.62))
+                                    .cornerRadius(10)
                                 }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 10)
-                                .frame(width: 167, height: 40, alignment: .center)
-                                .background(Color(red: 0.03, green: 0.7, blue: 0.62))
-                                .cornerRadius(10)
-                                
                                 HStack(alignment: .center, spacing: 0) {
                                     
                                     Button(action:{
@@ -417,3 +442,4 @@ struct MapView: UIViewRepresentable {
 #Preview{
     TrackerView(startRun: .constant(false), selectedTabIndex: .constant(4))
 }
+

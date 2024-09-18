@@ -49,32 +49,36 @@ class UsersViewModel: ObservableObject {
     }
 
     
-    func updateUser(userId: String, user: User) {
+    func updateUser(userId: String, user: User, completion: @escaping (Result<User, Error>) -> Void) {
         APIService.shared.updateUser(userId: userId, user: user) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
-//                    print(response.message)   Print the success message
                     if let index = self?.users.firstIndex(where: { $0.id == userId }) {
                         self?.users[index] = user
                     }
+                    completion(.success(user))  // Notify success
                 case .failure(let error):
                     self?.errorMessage = IdentifiableError(message: error.localizedDescription)
+                    completion(.failure(error))  // Notify failure
                 }
             }
         }
     }
 
-    func partialUpdateUser(userId: String, data: [String: Any]) {
+
+    func partialUpdateUser(userId: String, data: [String: Any], completion: @escaping () -> Void) {
         APIService.shared.partialUpdateUser(userId: userId, data: data) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let updatedUser):
                     if let index = self?.users.firstIndex(where: { $0.id == userId }) {
                         self?.users[index] = updatedUser
+                        completion()
                     }
                 case .failure(let error):
                     self?.errorMessage = IdentifiableError(message: error.localizedDescription)
+                    completion()
                 }
             }
         }

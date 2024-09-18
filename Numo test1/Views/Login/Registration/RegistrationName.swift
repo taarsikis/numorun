@@ -87,7 +87,7 @@ struct RegistrationName: View {
                             userData.updateUser(data: ["name": name , "registrationStage": "sex"])
                         }
                         
-                        userViewModel.partialUpdateUser(userId: userID, data: ["name": name] )
+                        userViewModel.partialUpdateUser(userId: userID, data: ["name": name] ){}
                         
                     }
                 }){

@@ -48,6 +48,7 @@ struct ChallengeView: View {
     
     @State private var showAlert = false
     @State private var showingAlert = false
+    @State private var isLoading = false
     
     
     @State private var runList : [Run] = []
@@ -370,7 +371,7 @@ struct ChallengeView: View {
                             .font(.system(size: 18))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.trailing,ss(w: 4))
-                        Text("\((self.challengeDetails.challenge.slowest_pace - (self.challengeDetails.challenge.slowest_pace % 60))/60):\(String(format: "%02d", self.challengeDetails.challenge.slowest_pace % 60)) км/хв")
+                        Text("\((self.challengeDetails.challenge.slowest_pace - (self.challengeDetails.challenge.slowest_pace % 60))/60):\(String(format: "%02d", self.challengeDetails.challenge.slowest_pace % 60)) хв/км")
                             .foregroundColor(Color(hex: "#5D5E5E"))
                             .font(.system(size: 16))
                     }
@@ -416,7 +417,7 @@ struct ChallengeView: View {
                     
                     VStack(alignment: .leading) {
                         VStack {
-                            ForEach(self.challengeDetails.challengeRuns, id: \.id) { run in
+                            ForEach(self.challengeDetails.challengeRuns.prefix(4), id: \.id) { run in
                                 
                                 HStack(spacing: 0){
                                     Text("\(formatDate(run.date.toDate(withFormat: "yyyy-MM-dd") ?? Date()))")
@@ -461,12 +462,42 @@ struct ChallengeView: View {
                         if !isUserParticipant && isAllowedContinue{
                             if let challengeId = challengeDetails.challenge.id {
                                 if let user = userViewModel.user {
-                                    let updatedUser = User(id: user.id, email: user.email, name: user.name, sex: user.sex, date_of_birth: user.date_of_birth, weight: user.weight, experience: user.experience, balance: user.balance - challengeDetails.challenge.price)
-                                    let participant = Participant(challenge_id: challengeId, user_id: self.userID, user_status: 1)
-                                    participantViewModel.createParticipant(participant: participant)
-                                    userViewModel.updateUser(userId: self.userID, user: updatedUser)
-                                    //                                navigateToChallengeView = true
-                                }else{
+                                                    isLoading = true  // Start loading
+
+                                                    // Create updated user with deducted balance
+                                                    let updatedUser = User(id: user.id, email: user.email, name: user.name, sex: user.sex, date_of_birth: user.date_of_birth, weight: user.weight, experience: user.experience, balance: user.balance - challengeDetails.challenge.price)
+
+                                                    // First API call: update user balance
+                                                    userViewModel.updateUser(userId: self.userID, user: updatedUser) { userResult in
+                                                        switch userResult {
+                                                        case .success:
+                                                            // User update succeeded, now create participant
+                                                            let participant = Participant(challenge_id: challengeId, user_id: self.userID, user_status: 1)
+
+                                                            // Second API call: create participant
+                                                            participantViewModel.createParticipant(participant: participant) { participantResult in
+                                                                isLoading = false  // Stop loading after participant is created
+
+                                                                switch participantResult {
+                                                                case .success:
+                                                                    // Perform success action, like navigation
+                                                                    // navigateToChallengeView = true
+                                                                    isLoading = false
+                                                                case .failure(let error):
+                                                                    // Handle error on participant creation
+                                                                    isLoading = false
+                                                                    showingAlert = true
+                                                                }
+                                                            }
+
+                                                        case .failure(let error):
+                                                            isLoading = false  // Stop loading on failure
+                                                            // Handle error on user update
+                                                            showingAlert = true
+                                                        }
+                                                    }
+                                                }
+                                else{
                                     showingAlert = true
                                 }
                             }else{
@@ -474,8 +505,17 @@ struct ChallengeView: View {
                             }
                         }
                     }){
-                        SuccessButtonView(title: isUserParticipant ? "Ви вже зареєстровані" : "Зареєструватися", isAllowed: !isUserParticipant && isAllowedContinue, fontSize: 20, fontPaddingSize: 16, cornerRadiusSize: 12)
-                            .padding(.horizontal, 30)
+                        if isLoading {
+                            HStack {
+                                Spacer()
+                                ProgressView()  // Show loading spinner while processing API calls
+                                    .padding(.horizontal, 30)
+                                Spacer()
+                            }
+                        } else {
+                            SuccessButtonView(title: isUserParticipant ? "Ви вже зареєстровані" : "Зареєструватися", isAllowed: !isUserParticipant && isAllowedContinue, fontSize: 20, fontPaddingSize: 16, cornerRadiusSize: 12)
+                                .padding(.horizontal, 30)
+                        }
                     }
                     //                        .fullScreenCover(isPresented: $navigateToChallengeView, content: {
                     //                    ChallengeView(challengeDetails: self.$challengeDetails)
@@ -538,15 +578,18 @@ extension FetchedChallenge {
     static var sample: FetchedChallenge {
         FetchedChallenge(
             challenge: Challenge(
-                id: 15,
+                id: 1,
                 name: "Sample Challenge" ,
                 description: "This is a detailed description of the sample challenge.",
-                price: 9009,
+                price: 1,
                 capacity: 100,
                 slowest_pace: 360,
-                creator: "0", status: 1
+                creator: "0", status: 0
             ),
             challengeRuns: [
+                ChallengeRun(id: 1,challenge_id: 1, date: "2024-06-12", distance_km: 5),
+                ChallengeRun(id: 1,challenge_id: 1, date: "2024-06-12", distance_km: 5),
+                ChallengeRun(id: 1,challenge_id: 1, date: "2024-06-12", distance_km: 5),
                 ChallengeRun(id: 1,challenge_id: 1, date: "2024-06-12", distance_km: 5),
                 ChallengeRun(id: 2, challenge_id: 1, date: "2024-07-17", distance_km: 10)
             ],

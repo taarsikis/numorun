@@ -9,7 +9,9 @@ import SwiftUI
 import URLImage
 
 struct CreationPrice: View {
-    @State private var amount: String = "100"
+    
+    @AppStorage("uid") var userID: String = ""
+    @State private var amount: String = "300"
     @State private var state: FieldStateNum = .active
     @Binding var challengeDetails : Challenge
     
@@ -17,9 +19,15 @@ struct CreationPrice: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var userData = UserData()
     
+    @StateObject private var userViewModel = UsersViewModel()
+    
     private var isAllowedContinue: Bool {
         // Your validation logic here. For demonstration, let's just check they are not empty.
-        !amount.isEmpty && hint == ""
+        
+        if ((self.userViewModel.user?.balance ?? 0) >= (Int(amount) ?? 0)) && !amount.isEmpty && hint == "" {
+            return true
+        }
+        return false
     }
     
     private var hint:  String{
@@ -126,6 +134,17 @@ struct CreationPrice: View {
             }.fullScreenCover(isPresented: $navigateToCreationCapacity, content: {
                 CreationCapacity(challengeDetails: self.$challengeDetails)
             })
+            if !isAllowedContinue && self.userViewModel.user?.balance ?? 0 < Int(amount) ?? 0 {
+                
+                HStack{
+                    Spacer()
+                    Text("У вас недостатньо коштів на балансі (\(userViewModel.user?.balance ?? 0)/\(Int(amount) ?? 0) грн.)")
+                        .font(.caption)
+                        .foregroundColor(Color(hex: "EB6048"))
+                        .padding(.top, 4)
+                    Spacer()
+                }
+            }
 //            }
 //            .padding(.top,ss(w: 84))
 //            .padding(.bottom,ss(w: 8))
@@ -134,6 +153,8 @@ struct CreationPrice: View {
 //            .background(Color(hex: "#FDFDFD"))
             //                .cornerRadius(20)
             
+        }.onAppear {
+            userViewModel.getUser(userId: userID)
         }
 //        .background(Color(hex: "#F6F6F6"))
         .cornerRadius(20)
