@@ -189,7 +189,7 @@ struct ProfileSettings: View {
                                         .padding(.bottom,ss(w: 8))
                                         .padding(.horizontal,ss(w: 16))
                                 }.sheet(isPresented: $showTermsOfUse) {
-                                    WebView(htmlFileName: "terms-of-use")
+                                    WebView(htmlFileName: "terms-of-use-ua")
                                         .navigationBarTitle("Terms of Use", displayMode: .inline)
                                 }
                                 

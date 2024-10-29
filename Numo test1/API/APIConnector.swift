@@ -284,5 +284,12 @@ class APIService {
         request("/challenges/\(challengeId)/financials", completion: completion)
     }
 
-    
+    func createPaycheck(paycheck: PaycheckCreate, completion: @escaping (Result<PaycheckCreate, Error>) -> Void) {
+        request("/create_paycheck/", method: "POST", body: paycheck, completion: completion)
+    }
+
+    func getSuccessPaychecks(completion: @escaping (Result<[PayCheck], Error>) -> Void) {
+        request("/paychecks/success", completion: completion)
+    }
 }
+

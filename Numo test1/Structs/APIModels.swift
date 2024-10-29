@@ -56,3 +56,40 @@ struct ChallengeFinancials: Codable {
         case winnerEarnings = "winner_earnings"
     }
 }
+
+struct PaycheckCreate: Codable {
+    let userID: String
+    let amount: Double
+    let message: String?
+    let invoiceId: String?
+    let paymentUrl: String?
+}
+
+struct PaymentInfo: Codable{
+    let fee : Int
+    let rrn : String
+    let bank : String
+    let tranId : String
+    let country : String
+    let terminal : String
+    let maskedPan : String
+    let approvalCode : String
+    let paymentMethod : String
+    let paymentSystem: String
+}
+
+struct PayCheck: Codable, Identifiable{
+    var id: Int?
+    
+    let userID : String
+    let invoiceId: String
+    let status : String
+    let amount : Double
+    let createdDate : String
+    let modifiedDate : String
+    let paymentInfo : PaymentInfo
+}
+
+
+
+

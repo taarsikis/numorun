@@ -94,8 +94,9 @@
 		4A9FE6142BBD576D004DA1B2 /* RegistrationWeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9FE6132BBD576D004DA1B2 /* RegistrationWeight.swift */; };
 		4AAF4B9B2C8846F5008D1F3E /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAF4B9A2C8846F5008D1F3E /* WebView.swift */; };
 		4AAF4B9D2C88479F008D1F3E /* privacy_policy.html in Resources */ = {isa = PBXBuildFile; fileRef = 4AAF4B9C2C88479F008D1F3E /* privacy_policy.html */; };
-		4AAF4B9F2C886F82008D1F3E /* terms-of-use.html in Resources */ = {isa = PBXBuildFile; fileRef = 4AAF4B9E2C886F81008D1F3E /* terms-of-use.html */; };
 		4AAF4BA12C8875C7008D1F3E /* BacgroundsForAvatars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AAF4BA02C8875C7008D1F3E /* BacgroundsForAvatars.swift */; };
+		4AB9B3E32CAC3D99000A72C7 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB9B3E22CAC3D99000A72C7 /* PaymentView.swift */; };
+		4AB9B3E52CAEB9D0000A72C7 /* PayChecksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB9B3E42CAEB9D0000A72C7 /* PayChecksViewModel.swift */; };
 		4AC5DFDC2BFE2A3100604E43 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC5DFDB2BFE2A3100604E43 /* DateExtension.swift */; };
 		4ACB79622BFE506600E495C8 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB79612BFE506600E495C8 /* StringExtension.swift */; };
 		4ACB79652C03989200E495C8 /* ChallengeList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACB79642C03989200E495C8 /* ChallengeList.swift */; };
@@ -103,6 +104,7 @@
 		4AD563852C2D4B8900AB51ED /* RunsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD563842C2D4B8900AB51ED /* RunsViewModel.swift */; };
 		4AD563872C2D5DE400AB51ED /* ProfileUserRuns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD563862C2D5DE400AB51ED /* ProfileUserRuns.swift */; };
 		4AFAA9882BE3B1CB000FDBF6 /* ProfileSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFAA9872BE3B1CB000FDBF6 /* ProfileSettings.swift */; };
+		4AFB850F2CD123D300E7752D /* terms-of-use-ua.html in Resources */ = {isa = PBXBuildFile; fileRef = 4AFB850E2CD123D300E7752D /* terms-of-use-ua.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,8 +164,9 @@
 		4A9FE6132BBD576D004DA1B2 /* RegistrationWeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationWeight.swift; sourceTree = "<group>"; };
 		4AAF4B9A2C8846F5008D1F3E /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		4AAF4B9C2C88479F008D1F3E /* privacy_policy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = privacy_policy.html; path = ../../../../Downloads/privacy_policy.html; sourceTree = "<group>"; };
-		4AAF4B9E2C886F81008D1F3E /* terms-of-use.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "terms-of-use.html"; path = "../../../../Downloads/terms-of-use.html"; sourceTree = "<group>"; };
 		4AAF4BA02C8875C7008D1F3E /* BacgroundsForAvatars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BacgroundsForAvatars.swift; sourceTree = "<group>"; };
+		4AB9B3E22CAC3D99000A72C7 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
+		4AB9B3E42CAEB9D0000A72C7 /* PayChecksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayChecksViewModel.swift; sourceTree = "<group>"; };
 		4AC5DFDB2BFE2A3100604E43 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		4ACB79612BFE506600E495C8 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		4ACB79642C03989200E495C8 /* ChallengeList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeList.swift; sourceTree = "<group>"; };
@@ -171,6 +174,7 @@
 		4AD563842C2D4B8900AB51ED /* RunsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunsViewModel.swift; sourceTree = "<group>"; };
 		4AD563862C2D5DE400AB51ED /* ProfileUserRuns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUserRuns.swift; sourceTree = "<group>"; };
 		4AFAA9872BE3B1CB000FDBF6 /* ProfileSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettings.swift; sourceTree = "<group>"; };
+		4AFB850E2CD123D300E7752D /* terms-of-use-ua.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "terms-of-use-ua.html"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +265,7 @@
 				4A39391D2BFCD29000038ECA /* ParticipantAPIModel.swift */,
 				4AD563842C2D4B8900AB51ED /* RunsViewModel.swift */,
 				4A229E152C63D7D200FFA111 /* ChallengeFinancialsModel.swift */,
+				4AB9B3E42CAEB9D0000A72C7 /* PayChecksViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -273,21 +278,21 @@
 			path = "Forgot password";
 			sourceTree = "<group>";
 		};
-		4A6683D02C219EE20054CEE2 /* New Group1 */ = {
+		4A6683D02C219EE20054CEE2 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
 				4A6683D12C219F0F0054CEE2 /* AvtivityView.swift */,
 			);
-			path = "New Group1";
+			path = Activity;
 			sourceTree = "<group>";
 		};
-		4A6683D52C2AC0740054CEE2 /* New Group2 */ = {
+		4A6683D52C2AC0740054CEE2 /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
 				4A6683D72C2AC0980054CEE2 /* Tracker.swift */,
 				4AD563822C2C6B0C00AB51ED /* RunStats.swift */,
 			);
-			path = "New Group2";
+			path = Tracker;
 			sourceTree = "<group>";
 		};
 		4A6F8B872BC094AB0069C644 /* Profile */ = {
@@ -307,12 +312,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4A83A2702C6CE85D00A3F023 /* New Group3 */ = {
+		4A83A2702C6CE85D00A3F023 /* Balance */ = {
 			isa = PBXGroup;
 			children = (
 				4A83A2712C6CE87E00A3F023 /* BalanceView.swift */,
+				4AB9B3E22CAC3D99000A72C7 /* PaymentView.swift */,
 			);
-			path = "New Group3";
+			path = Balance;
 			sourceTree = "<group>";
 		};
 		4A9FE5D82BB5ABA3004DA1B2 = {
@@ -347,8 +353,8 @@
 				4A9FE5E42BB5ABA3004DA1B2 /* Numo_test1App.swift */,
 				4A9FE5E62BB5ABA3004DA1B2 /* ContentView.swift */,
 				4A9FE5E82BB5ABA5004DA1B2 /* Assets.xcassets */,
+				4AFB850E2CD123D300E7752D /* terms-of-use-ua.html */,
 				4AAF4B9C2C88479F008D1F3E /* privacy_policy.html */,
-				4AAF4B9E2C886F81008D1F3E /* terms-of-use.html */,
 				4A9FE5EA2BB5ABA5004DA1B2 /* Preview Content */,
 				4A3939102BFB85A000038ECA /* test.swift */,
 			);
@@ -366,10 +372,10 @@
 		4A9FE5F72BB6AFB2004DA1B2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4A83A2702C6CE85D00A3F023 /* New Group3 */,
-				4A6683D52C2AC0740054CEE2 /* New Group2 */,
-				4A6683D02C219EE20054CEE2 /* New Group1 */,
-				4ACB79632C03985C00E495C8 /* New Group */,
+				4A83A2702C6CE85D00A3F023 /* Balance */,
+				4A6683D52C2AC0740054CEE2 /* Tracker */,
+				4A6683D02C219EE20054CEE2 /* Activity */,
+				4ACB79632C03985C00E495C8 /* ChallengeList */,
 				4A3938FB2BF20CCA00038ECA /* Сhallagne creation */,
 				4A6F8B872BC094AB0069C644 /* Profile */,
 				4A9FE5F82BB6AFBD004DA1B2 /* Login */,
@@ -428,7 +434,7 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		4ACB79632C03985C00E495C8 /* New Group */ = {
+		4ACB79632C03985C00E495C8 /* ChallengeList */ = {
 			isa = PBXGroup;
 			children = (
 				4ACB79642C03989200E495C8 /* ChallengeList.swift */,
@@ -438,7 +444,7 @@
 				4A6683CC2C198DDA0054CEE2 /* ChallengeViewRuns.swift */,
 				4A6683CE2C2054DD0054CEE2 /* ChallengeViewCompletedRuns.swift */,
 			);
-			path = "New Group";
+			path = ChallengeList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -541,9 +547,9 @@
 			files = (
 				4A9FE5EC2BB5ABA5004DA1B2 /* Preview Assets.xcassets in Resources */,
 				4A9FE5E92BB5ABA5004DA1B2 /* Assets.xcassets in Resources */,
-				4AAF4B9F2C886F82008D1F3E /* terms-of-use.html in Resources */,
 				4A43B0DB2BBEDEEA008BB191 /* GoogleService-Info.plist in Resources */,
 				4AAF4B9D2C88479F008D1F3E /* privacy_policy.html in Resources */,
+				4AFB850F2CD123D300E7752D /* terms-of-use-ua.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,6 +580,7 @@
 				4A3938FF2BF245B700038ECA /* CreationPrice.swift in Sources */,
 				4A718A012C9852C000D081DE /* ColorExtension.swift in Sources */,
 				4A6683CB2C1989DD0054CEE2 /* ChallengeView.swift in Sources */,
+				4AB9B3E52CAEB9D0000A72C7 /* PayChecksViewModel.swift in Sources */,
 				4A42D1C72BD14CAE00915393 /* UserModel.swift in Sources */,
 				4A3939112BFB85A000038ECA /* test.swift in Sources */,
 				4A6683C92C1880240054CEE2 /* Filter.swift in Sources */,
@@ -583,6 +590,7 @@
 				4AC5DFDC2BFE2A3100604E43 /* DateExtension.swift in Sources */,
 				4A3939182BFCD0F600038ECA /* UserAPIModel.swift in Sources */,
 				4A3939012BF24B3500038ECA /* NumericInput.swift in Sources */,
+				4AB9B3E32CAC3D99000A72C7 /* PaymentView.swift in Sources */,
 				4A3C50A52BCA80220067B70D /* UserStructure.swift in Sources */,
 				4A3939202BFCD5F800038ECA /* IdentifiableError.swift in Sources */,
 				4A3939092BF39D6E00038ECA /* CreationCalendar.swift in Sources */,

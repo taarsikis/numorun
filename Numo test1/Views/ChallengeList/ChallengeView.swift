@@ -125,6 +125,17 @@ struct ChallengeView: View {
         return filteredAndSortedRuns.first?.run
     }
     
+    func getTextForParticipantCount() -> String {
+        let totalParticipants = self.$participantViewModel.participants.count
+        if challengeDetails.challenge.status == 0 {
+            return "\(totalParticipants)"
+        } else {
+            let activeParticipants = self.$participantViewModel.participants.filter { $0.user_status.wrappedValue != 2 }.count
+            return "\(activeParticipants)/\(totalParticipants)"
+        }
+    }
+
+    
     var body: some View {
         ScrollView {
             
@@ -385,6 +396,25 @@ struct ChallengeView: View {
                     .background(Color(hex: "#C6C6C6"))
                     .padding(.bottom,ss(w: 12))
                     HStack(spacing: 0){
+                        Text("К-сть учасників")
+                            .foregroundColor(Color(hex: "#1B1C1C"))
+                            .font(.system(size: 18))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.trailing,ss(w: 4))
+                        Text("\(getTextForParticipantCount())")
+                            .foregroundColor(Color(hex: "#5D5E5E"))
+                            .font(.system(size: 16))
+                    }
+                    .frame(height: ss(w: 18))
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom,ss(w: 11))
+                    VStack(alignment: .leading, spacing: 0){
+                    }
+                    .frame(height: ss(w: 1))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(hex: "#C6C6C6"))
+                    .padding(.bottom,ss(w: 12))
+                    HStack(spacing: 0){
                         Text("Середня відстань пробіжки")
                             .foregroundColor(Color(hex: "#1B1C1C"))
                             .font(.system(size: 18))
@@ -399,7 +429,7 @@ struct ChallengeView: View {
                 }
                 .padding(.vertical,ss(w: 17))
                 .padding(.horizontal,ss(w: 14))
-                .frame(height: ss(w: 192))
+                .frame(height: ss(w: 240))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color(hex: "#FDFDFD"))
                 .cornerRadius(12)
@@ -578,7 +608,7 @@ extension FetchedChallenge {
     static var sample: FetchedChallenge {
         FetchedChallenge(
             challenge: Challenge(
-                id: 1,
+                id: 22,
                 name: "Sample Challenge" ,
                 description: "This is a detailed description of the sample challenge.",
                 price: 1,
@@ -587,11 +617,11 @@ extension FetchedChallenge {
                 creator: "0", status: 0
             ),
             challengeRuns: [
-                ChallengeRun(id: 1,challenge_id: 1, date: "2024-06-12", distance_km: 5),
-                ChallengeRun(id: 1,challenge_id: 1, date: "2024-06-12", distance_km: 5),
-                ChallengeRun(id: 1,challenge_id: 1, date: "2024-06-12", distance_km: 5),
-                ChallengeRun(id: 1,challenge_id: 1, date: "2024-06-12", distance_km: 5),
-                ChallengeRun(id: 2, challenge_id: 1, date: "2024-07-17", distance_km: 10)
+                ChallengeRun(id: 1,challenge_id: 1, date: "2025-06-12", distance_km: 5),
+                ChallengeRun(id: 1,challenge_id: 1, date: "2025-06-12", distance_km: 5),
+                ChallengeRun(id: 1,challenge_id: 1, date: "2025-06-12", distance_km: 5),
+                ChallengeRun(id: 1,challenge_id: 1, date: "2025-06-12", distance_km: 5),
+                ChallengeRun(id: 2, challenge_id: 1, date: "2025-07-17", distance_km: 10)
             ],
             averageDistance: 3
         )

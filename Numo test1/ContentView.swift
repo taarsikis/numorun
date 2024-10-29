@@ -3,7 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @AppStorage("uid") var userID: String = ""
     @StateObject var userData = UserData()
-    @State private var selectedTabIndex = 0
+    @State private var selectedTabIndex = 2
     @State private var startRun = false
     
     var body: some View {
